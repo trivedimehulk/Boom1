@@ -20,6 +20,7 @@ async function uploadFile() {
     alert(result);
 }
 
+
 async function askQuestion() {
     const question = document.getElementById('questionInput').value;
     if (!question) {
@@ -27,14 +28,14 @@ async function askQuestion() {
         return;
     }
 
-    const formData = new FormData();
-    formData.append('query', question);
-
     const response = await fetch('https://ac74-34-16-166-115.ngrok-free.app/query', {
         method: 'POST',
-        body: formData,
+        headers: {
+            'Content-Type': 'application/json'    // 👈 add this line
+        },
+        body: JSON.stringify({ question: question })
     });
 
     const result = await response.json();
-    document.getElementById('answerBox').innerText = result.answer;
+    document.getElementById('answerBox').innerText = result.summary;
 }
