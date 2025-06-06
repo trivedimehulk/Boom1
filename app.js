@@ -1,5 +1,14 @@
 // app.js
 
+let backendUrl = '';
+
+window.onload = function() {
+    backendUrl = prompt("Please enter your backend URL (example: https://xxxx.ngrok-free.app)");
+    if (!backendUrl) {
+        alert('Backend URL is required to proceed.');
+    }
+};
+
 async function uploadFile() {
     const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
@@ -11,15 +20,14 @@ async function uploadFile() {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch('https://ac74-34-16-166-115.ngrok-free.app/upload', {
+    const response = await fetch(`${backendUrl}/upload`, {
         method: 'POST',
         body: formData,
     });
 
     const result = await response.json();
-    alert(result);
+    alert(result.message || result.error || "Upload completed");
 }
-
 
 async function askQuestion() {
     const question = document.getElementById('questionInput').value;
@@ -28,14 +36,14 @@ async function askQuestion() {
         return;
     }
 
-    const response = await fetch('https://ac74-34-16-166-115.ngrok-free.app/query', {
+    const response = await fetch(`${backendUrl}/query`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'    // 👈 add this line
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({ question: question })
     });
 
     const result = await response.json();
-    document.getElementById('answerBox').innerText = result.summary;
+    document.getElementById('answerBox').innerText = result.summary || "No answer generated.";
 }
