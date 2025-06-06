@@ -1,86 +1,177 @@
 /* style.css */
 
 body {
-    background-color: #f9f9f9;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
+    background-color: #f0f2f5;
 }
 
-.container {
-    background-color: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    width: 400px;
-    text-align: center;
-}
-
-.logo {
-    width: 200px;
-    margin-bottom: 20px;
-}
-
-h1 {
-    color: #0097a9; /* Welbe teal */
-    margin-bottom: 30px;
-}
-
-.upload-section, .chat-section {
-    margin-bottom: 25px;
-}
-
-input[type="file"] {
-    margin-bottom: 10px;
-}
-
-button {
-    background-color: #0097a9;
+.sidebar {
+    width: 250px;
+    background-color: #93639a; /* NEW - your purple */
     color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #007c8a;
-}
-
-.chatbox {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 20px;
 }
 
-.chatbox input[type="text"] {
+
+.logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+}
+
+.upload-section, .config-section {
     width: 100%;
-    padding: 12px;
+    margin-bottom: 30px;
+}
+
+.upload-section input[type="file"],
+.config-section input[type="text"] {
+    width: 100%;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+}
+
+.upload-section button, .config-section button {
+    width: 100%;
+    background-color: #10a37f;
+    border: none;
+    padding: 10px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
     border-radius: 6px;
 }
 
-.answer-section {
-    margin-top: 20px;
-    background-color: #eef8f9;
+.upload-section button:hover, .config-section button:hover {
+    background-color: #0e8a6d;
+}
+
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+}
+
+.chat-header {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.chat-header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #202123;
+}
+
+.chatbox {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-message {
+    background-color: #e6f0ff;
+    color: #202123;
+    padding: 15px 20px;
+    border-radius: 18px;
+    margin-bottom: 15px;
+    max-width: 75%;
+    position: relative;
+    font-size: 16px;
+    line-height: 1.4;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    align-self: flex-start; /* Bot's message on the left */
+}
+
+.chat-message p {
+    margin: 0;
+}
+
+.heart {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #ccc;
+    transition: color 0.3s ease;
+}
+
+.heart.liked {
+    color: #e25555;
+}
+
+.input-section {
+    display: flex;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.input-section input[type="text"] {
+    flex: 1;
     padding: 15px;
-    border-radius: 8px;
-    min-height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
 }
 
-.answer-section h2 {
-    color: #007c8a;
-    margin-bottom: 10px;
+.input-section button {
+    margin-left: 10px;
+    padding: 15px 20px;
+    background-color: #10a37f;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 25px;
 }
 
-#answerBox {
-    color: #333;
+.input-section button:hover {
+    background-color: #0e8a6d;
+}
+
+/* Loading overlay */
+.loading-overlay {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #10a37f;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

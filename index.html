@@ -6,27 +6,40 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <img src="https://welbehealth.com/wp-content/uploads/2020/06/welbehealth_logo.png" alt="WelbeHealth Logo" class="logo">
-
-        <h1>WelbeHealth AI Chat Assistant</h1>
+    <div class="sidebar">
+        <img src="logo.png" alt="WelbeHealth Logo" class="logo">
+        <h2>WelbeHealth AI</h2>
 
         <div class="upload-section">
             <input type="file" id="fileInput">
             <button onclick="uploadFile()">Upload Document</button>
         </div>
 
-        <div class="chat-section">
-            <div class="chatbox">
-                <input type="text" id="questionInput" placeholder="Type your question here...">
-                <button onclick="askQuestion()">Ask</button>
-            </div>
-
-            <div class="answer-section">
-                <h2>Answer:</h2>
-                <p id="answerBox"></p>
-            </div>
+        <div class="config-section">
+            <h3>⚙️ Configuration</h3>
+            <input type="text" id="backendUrlInput" placeholder="Enter backend URL">
+            <button onclick="saveBackendUrl()">Save</button>
         </div>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>WelbeHealth AI Chat Assistant</h1>
+        </div>
+
+        <div class="chatbox" id="chatbox">
+            <!-- Bot/Chat messages will be injected here -->
+        </div>
+
+        <div class="input-section">
+            <input type="text" id="questionInput" placeholder="Type your question here..." onkeypress="handleKeyPress(event)">
+            <button onclick="askQuestion()">Ask</button>
+        </div>
+    </div>
+
+    <!-- Loading spinner overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
     </div>
 
     <script src="app.js"></script>
