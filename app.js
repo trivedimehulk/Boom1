@@ -17,7 +17,7 @@ async function uploadFile() {
     });
 
     const result = await response.json();
-    alert(result.status || result.error);
+    alert(result);
 }
 
 async function askQuestion() {
@@ -30,7 +30,7 @@ async function askQuestion() {
     const formData = new FormData();
     formData.append('query', question);
 
-    const response = await fetch('https://ac74-34-16-166-115.ngrok-free.app/chat', {
+    const response = await fetch('https://ac74-34-16-166-115.ngrok-free.app/query', {
         method: 'POST',
         body: formData,
     });
