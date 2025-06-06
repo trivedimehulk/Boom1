@@ -1,0 +1,86 @@
+/* style.css */
+
+body {
+    background-color: #f9f9f9;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 400px;
+    text-align: center;
+}
+
+.logo {
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #0097a9; /* Welbe teal */
+    margin-bottom: 30px;
+}
+
+.upload-section, .chat-section {
+    margin-bottom: 25px;
+}
+
+input[type="file"] {
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #0097a9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #007c8a;
+}
+
+.chatbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chatbox input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.answer-section {
+    margin-top: 20px;
+    background-color: #eef8f9;
+    padding: 15px;
+    border-radius: 8px;
+    min-height: 100px;
+}
+
+.answer-section h2 {
+    color: #007c8a;
+    margin-bottom: 10px;
+}
+
+#answerBox {
+    color: #333;
+}

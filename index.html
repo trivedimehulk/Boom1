@@ -1,23 +1,33 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mini GPT Bot</title>
+    <title>WelbeHealth Mini GPT Bot</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Upload Document and Ask Questions</h1>
+    <div class="container">
+        <img src="https://welbehealth.com/wp-content/uploads/2020/06/welbehealth_logo.png" alt="WelbeHealth Logo" class="logo">
 
-    <input type="file" id="fileInput">
-    <button onclick="uploadFile()">Upload</button>
+        <h1>WelbeHealth AI Chat Assistant</h1>
 
-    <hr>
+        <div class="upload-section">
+            <input type="file" id="fileInput">
+            <button onclick="uploadFile()">Upload Document</button>
+        </div>
 
-    <input type="text" id="questionInput" placeholder="Ask a question...">
-    <button onclick="askQuestion()">Ask</button>
+        <div class="chat-section">
+            <div class="chatbox">
+                <input type="text" id="questionInput" placeholder="Type your question here...">
+                <button onclick="askQuestion()">Ask</button>
+            </div>
 
-    <h2>Answer:</h2>
-    <p id="answerBox"></p>
+            <div class="answer-section">
+                <h2>Answer:</h2>
+                <p id="answerBox"></p>
+            </div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>
