@@ -16,6 +16,16 @@ function showLoading(show) {
     overlay.style.display = show ? 'flex' : 'none';
 }
 
+// 👇 Utility to gather user details
+function getUserDetails() {
+    return {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        screenResolution: `${window.screen.width}x${window.screen.height}`
+    };
+}
+
 async function uploadFile() {
     const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
@@ -26,6 +36,10 @@ async function uploadFile() {
 
     const formData = new FormData();
     formData.append('file', file);
+
+    // 👉 Add user details to FormData
+    const userDetails = getUserDetails();
+    formData.append('userDetails', JSON.stringify(userDetails));
 
     try {
         showLoading(true);
@@ -54,6 +68,11 @@ async function askQuestion() {
         return;
     }
 
+    const payload = {
+        question: question,
+        userDetails: getUserDetails() // 👉 Send user details in JSON body
+    };
+
     try {
         showLoading(true);
         const response = await fetch(`${backendUrl}/query`, {
@@ -64,7 +83,7 @@ async function askQuestion() {
             mode: 'cors',
             cache: 'no-cache',
             credentials: 'omit',
-            body: JSON.stringify({ question: question })
+            body: JSON.stringify(payload)
         });
 
         const result = await response.json();
