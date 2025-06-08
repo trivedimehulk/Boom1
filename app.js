@@ -1,11 +1,28 @@
-// app.js
-
 let backendUrl = '';
+
+// Load from localStorage if exists
+window.onload = function () {
+    const savedUrl = localStorage.getItem('backendUrl');
+    if (savedUrl) {
+        backendUrl = savedUrl;
+        console.log('✅ Loaded backend URL:', backendUrl);
+    } else {
+        console.log('❌ No backend URL set yet.');
+    }
+    loadSampleSuggestions();
+};
+
+function openSettings() {
+    document.getElementById('settingsOverlay').style.display = 'flex';
+}
 
 function saveBackendUrl() {
     const input = document.getElementById('backendUrlInput').value.trim();
     if (input) {
         backendUrl = input;
+        localStorage.setItem('backendUrl', backendUrl);
+        document.getElementById('settingsOverlay').style.display = 'none';
+        //alert('✅ Backend URL saved!');
     } else {
         alert('Please enter a valid URL.');
     }
@@ -16,7 +33,6 @@ function showLoading(show) {
     overlay.style.display = show ? 'flex' : 'none';
 }
 
-// 👇 Utility to gather user details
 function getUserDetails() {
     return {
         userAgent: navigator.userAgent,
@@ -36,10 +52,7 @@ async function uploadFile() {
 
     const formData = new FormData();
     formData.append('file', file);
-
-    // 👉 Add user details to FormData
-    const userDetails = getUserDetails();
-    formData.append('userDetails', JSON.stringify(userDetails));
+    formData.append('userDetails', JSON.stringify(getUserDetails()));
 
     try {
         showLoading(true);
@@ -52,25 +65,28 @@ async function uploadFile() {
         });
 
         const result = await response.json();
-        addMessage("📄 Document uploaded successfully.", false);
+        addMessage("📄 Document uploaded successfully.", true);
     } catch (error) {
-        addMessage("❌ Upload failed: " + error, false);
+        addMessage("❌ Upload failed: " + error, true);
     } finally {
         showLoading(false);
     }
 }
 
-async function askQuestion() {
+async function askQuestion(customQuestion = null) {
     const questionInput = document.getElementById('questionInput');
-    const question = questionInput.value.trim();
+    const question = customQuestion || questionInput.value.trim();
     if (!question) {
         alert('Please type a question.');
         return;
     }
 
+    // Show user message first
+    addMessage(question, false);
+
     const payload = {
         question: question,
-        userDetails: getUserDetails() // 👉 Send user details in JSON body
+        userDetails: getUserDetails()
     };
 
     try {
@@ -86,45 +102,59 @@ async function askQuestion() {
             body: JSON.stringify(payload)
         });
 
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Server Error: ${response.status} - ${errorText}`);
+        }
+
         const result = await response.json();
         addMessage(result.summary || "No answer generated.", true);
     } catch (error) {
-        addMessage("❌ Failed to get response: " + error, true);
+        addMessage("❌ Failed to get response: " + error.message, true);
     } finally {
         showLoading(false);
         questionInput.value = '';
     }
 }
 
-function addMessage(messageText, showHeart) {
+function addMessage(messageText, isBot) {
     const chatbox = document.getElementById('chatbox');
     const messageDiv = document.createElement('div');
-    messageDiv.classList.add('chat-message');
+    messageDiv.classList.add('chat-message', isBot ? 'bot' : 'user');
+
+    const iconSpan = document.createElement('span');
+    iconSpan.classList.add('chat-icon');
+    iconSpan.innerHTML = isBot ? '🤖' : '👤';
 
     const textP = document.createElement('p');
     textP.innerText = messageText;
+
+    messageDiv.appendChild(iconSpan);
     messageDiv.appendChild(textP);
 
-    if (showHeart) {
-        const heart = document.createElement('span');
-        heart.innerHTML = '♥'; // Heart icon
-        heart.classList.add('heart');
-        heart.addEventListener('click', function () {
-            heart.classList.toggle('liked');
-        });
-        messageDiv.appendChild(heart);
-    }
-
     chatbox.appendChild(messageDiv);
-
-    // Scroll to bottom
     chatbox.scrollTop = chatbox.scrollHeight;
 }
 
-// Press Enter to Ask
 function handleKeyPress(event) {
     if (event.key === 'Enter') {
         event.preventDefault();
         askQuestion();
     }
+}
+
+function loadSampleSuggestions() {
+    const suggestions = [
+        "What services does WelbeHealth offer?",
+        "Tell me about the PACE program.",
+        "Where are WelbeHealth locations?"
+    ];
+    const chatbox = document.getElementById('chatbox');
+    suggestions.forEach(suggestion => {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('chat-message', 'suggestion');
+        msgDiv.innerText = suggestion;
+        msgDiv.onclick = () => askQuestion(suggestion);
+        chatbox.appendChild(msgDiv);
+    });
 }

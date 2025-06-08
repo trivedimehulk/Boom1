@@ -6,38 +6,37 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="sidebar">
-        <img src="logo.png" alt="WelbeHealth Logo" class="logo">
-        <h2>WelbeHealth AI</h2>
 
-        <div class="upload-section">
-            <input type="file" id="fileInput">
-            <button onclick="uploadFile()">Upload Document</button>
+    <div class="chat-container">
+        <div class="chat-header">
+            <img src="logo.png" alt="WelbeHealth Logo" class="logo-header">
+            <span class="settings-icon" onclick="openSettings()">⚙️</span>
         </div>
 
-        <div class="config-section">
-            <h3>⚙️ Configuration</h3>
+        <div class="chatbox" id="chatbox">
+            <!-- Sample messages will be injected here -->
+        </div>
+
+        <div class="input-section">
+            <label for="fileInput" class="file-upload-label">
+                📎
+                <input type="file" id="fileInput" onchange="uploadFile()" hidden>
+            </label>
+            <input type="text" id="questionInput" placeholder="Type your question here..." onkeypress="handleKeyPress(event)">
+            <button onclick="askQuestion()">Send</button>
+        </div>
+    </div>
+
+    <!-- Settings Overlay -->
+    <div id="settingsOverlay" class="overlay">
+        <div class="overlay-content">
+            <h2>Set Backend URL</h2>
             <input type="text" id="backendUrlInput" placeholder="Enter backend URL">
             <button onclick="saveBackendUrl()">Save</button>
         </div>
     </div>
 
-    <div class="chat-container">
-        <div class="chat-header">
-            <h1>WelbeHealth AI Chat Assistant</h1>
-        </div>
-
-        <div class="chatbox" id="chatbox">
-            <!-- Bot/Chat messages will be injected here -->
-        </div>
-
-        <div class="input-section">
-            <input type="text" id="questionInput" placeholder="Type your question here..." onkeypress="handleKeyPress(event)">
-            <button onclick="askQuestion()">Ask</button>
-        </div>
-    </div>
-
-    <!-- Loading spinner overlay -->
+    <!-- Loading Overlay -->
     <div id="loadingOverlay" class="loading-overlay">
         <div class="spinner"></div>
     </div>
